@@ -16,7 +16,7 @@ TOL = 10e-5
 def calcpi():
       
       # initialize term for summation
-      pi=0
+      pi = 0
 
       # looping backwards using steps to reduce errors
       for k in range(PI_COUNTER-1, -1, -1):
@@ -33,7 +33,7 @@ def calcpi():
 pi = calcpi()
 
 # non-recursive power function n**e
-def pow(n,e):
+def pow(n, e):
       a = 1
       while e is not 0:
             if e and 1 is 0:
@@ -56,32 +56,32 @@ def fact(n):
 
 # sine function lsin(x)
 def lsin(x):
-      sine=0
+      sine = 0
       
       # looping backwards using steps to reduce errors
       for k in range(TRIG_COUNTER, 0, -1):
             
             # terms are from taylor series
-            sine += pow(-1,k) * pow(x,2*k+1)/fact(2*k+1)
+            sine += pow(-1, k) * pow(x, 2 * k + 1) / fact(2 * k + 1)
             
       return sine
 
 # cosine function lcos(x)
 def lcos(x):
-      cosine=0
+      cosine = 0
       
       # looping backwards using steps to reduce errors
       for k in range(TRIG_COUNTER, 0, -1):
             
             # terms are from taylor series
-            cosine += pow(-1,k) * pow(x,2*k)/fact(2*k)
+            cosine += pow(-1, k) * pow(x, 2 * k) / fact(2 * k)
             
       return cosine
 
 
 # function used to compute a (simplified to reduce truncation error)
 def f(a):
-      return lsin(a) + pi/2
+      return lsin(a) + pi / 2
 
 
 # bisection method implemetation to find the root in the interval [l,h] for function f
@@ -94,27 +94,27 @@ def solve(eqn, l, h):
       while(count <= NMAX):
 
             # new midpoint
-            m = (l + h)/2
+            m = (l + h) / 2
 
             # calculate f at two points
             x = eqn(l)
             y = eqn(m)
             
             # check for tolerance and eqn(m)=0
-            if y == 0 or (h-l)/2 < TOL:
+            if y == 0 or (h - l) / 2 < TOL:
                   return m
             
             # increment step counter
             count += 1
 
-            if (x*y) > 0: # new interval if x and y have same sign
+            if (x * y) > 0: # new interval if x and y have same sign
                   l = m
             else:
                   h = m
 
                  
 # call solve function on f to get a
-a = solve(f, 0, 2*pi)
+a = solve(f, 0, 2 * pi)
 
 
 # prompting for input
@@ -127,8 +127,8 @@ while True:
             
       if radius is not None:
             radius = float(radius)
-            l = -2 * radius * lcos(a/2)
-            print("For radius R: ",radius," Length l: ",l)
+            l = -2 * radius * lcos(a / 2)
+            print("For radius R: ", radius," Length l: ", l)
       else:
             print("please enter proper value for radius!")
 
