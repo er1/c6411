@@ -109,13 +109,27 @@ var potum = function(r) {
 	return l;
 };
 
-// get last argument
-var n = +process.argv.pop();
+function loop() {
+	var stdin = process.stdin
+	var stdout = process.stdout;
 
-// check if its a number
-if (isNaN(n)) {
-	n = 1;
+	stdin.resume();
+	stdout.write("Enter a radius: ");
+
+	stdin.once('data', function(data) {
+		data = data.toString().trim();
+
+		r = +data;
+		if (!isNaN(r)) {
+			var l = potum(r);
+			stdout.write("Radius:  " + r + "\n");
+			stdout.write("Overlap: " + l + "\n");
+		}
+		if (data.match(/exit|quit/i)) {
+			process.exit(0);
+		}
+		loop();
+	});
 }
 
-// print the result
-console.log(potum(n));
+loop();
