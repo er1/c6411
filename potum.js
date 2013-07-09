@@ -9,25 +9,28 @@ var potum = function(r) {
 
 	// power function b^e
 	var pow = function(b, e) {
-		// return 1 in the base case of pow b ^ 0 === 1
-		if (e == 0)
-			return 1;
-		// optimize around b ^ (2 * n) === (b * b) ^ n
-		if (e % 2 == 0)
-			return pow(b * b, e / 2);
-
-		// recursive case
-		return b * pow(b, e - 1);
+		var ret = 1;
+		while (e > 0) {
+			// optimize around b ^ (2 * n) === (b * b) ^ n
+			if (e % 2 == 0) {
+				e /= 2;
+				b *= b;
+			} else {
+				e--;
+				ret *= b;
+			}
+		}		
+		return ret;
 	};
 
 	// factorial function x!
 	var fact = function(x) {
-		// base case of 0! === 1
-		if (x == 0)
-			return 1;
-
-		// recursivec ase
-		return x * fact(x - 1);
+		var ret = 1;
+		while (x > 0) {
+			ret *= x;
+			x--;
+		}
+		return ret;
 	};
 
 	// calculate pi
@@ -46,20 +49,20 @@ var potum = function(r) {
 	};
 
 	// calculate sine
-	var sin = function(x) {
+	var lsin = function(x) {
 		var ret = 0;
 		var i = TRIG_ITER;
-		while (i--) {
+		while (i-->1) {
 			ret += pow(-1, i) * pow(x, 2 * i + 1) / fact(2 * i + 1);
 		}
 		return ret;
 	};
 	
 	// calculate cosine
-	var cos = function(x) {
+	var lcos = function(x) {
 		var ret = 0;
 		var i = TRIG_ITER;
-		while (i--) {
+		while (i-->1) {
 			ret += pow(-1, i) * pow(x, 2 * i) / fact(2 * i);
 		}
 		return ret;
@@ -67,24 +70,26 @@ var potum = function(r) {
 
 	// solve the zero for function f in the range of [l, h]
 	var solve = function(eqn, l, h) {
-		// find the mid point
-		var m = (l + h) / 2;
+		while (true) {
+			// find the mid point
+			var m = (l + h) / 2;
 
-		// if the rounding error causes m to match either l or h
-		// this will not work with infinite precision
-		if (m == l || m == h)
-			return m;
+			// if the rounding error causes m to match either l or h
+			// this will not work with infinite precision
+			if (m == l || m == h)
+				return m;
 
-		// sove f at two points
-		var a = eqn(l);
-		var b = eqn(m);
+			// sove f at two points
+			var a = eqn(l);
+			var b = eqn(m);
 
-		// if the signs match, then the zero is not in that region
-		// otherwise it is. Call again on the region with differing signs
-		if (a < 0 == b < 0)
-			return solve(f, m, h);
-		else
-			return solve(f, l, m);
+			// if the signs match, then the zero is not in that region
+			// otherwise it is.
+			if (a < 0 == b < 0)
+				l = m;
+			else
+				h = m;
+		}
 	};
 
 	// calulate pi
@@ -92,16 +97,25 @@ var potum = function(r) {
 
 	// function used to solve for a
 	var f = function(a) {
-		return a - sin(a) - pi / 2;
+		return lsin(a) + pi / 2;
 	};
 
 	// call solve on f to get a
 	var a = solve(f, 0, 2 * pi);
 
 	// calculate l based on a
-	var l = 2 * r * (1 - cos(a / 2));
+	var l = -2 * r * lcos(a / 2);
 
 	return l;
 };
 
-console.log(potum(1));
+// get last argument
+var n = +process.argv.pop();
+
+// check if its a number
+if (isNaN(n)) {
+	n = 1;
+}
+
+// print the result
+console.log(potum(n));

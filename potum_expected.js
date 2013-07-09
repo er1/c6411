@@ -18,8 +18,11 @@ while (true) {
 		high = mid;
 }
 
+var r = +process.argv.pop();
+if (isNaN(r))
+	r = 1;
 var a = mid;
 var l = 2 * (1 - Math.cos(a / 2));
+var rl = r * l;
 
-console.log({a:a,l:l});
-
+console.log({a:a,l:l,rl:rl});
