@@ -18,11 +18,7 @@ def calcpi():
 		ret += 1.0 / pow(16, n) * (
 		  4.0 / (8 * n + 1) - 2.0 / (8 * n + 4) - 
 		  1.0 / (8 * n + 5) - 1.0 / (8 * n + 6))
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> ed0a01bfa239ff71c6792f983bfeb949473481b1
 	return ret
 
 # non-recursive power function n**e
@@ -50,7 +46,6 @@ def fact(n):
 # sine function lsin(x)
 def lsin(x):
 	ret = 0
-<<<<<<< HEAD
 
 	# looping backwards using steps to reduce errors
 	for k in range(TRIG_ITER, 0, -1):	
@@ -97,64 +92,12 @@ pi = calcpi()
 # function used to compute a (simplified to reduce truncation error)
 f = lambda x : lsin(x) + pi / 2
 
-=======
-	
-	# looping backwards using steps to reduce errors
-	for k in range(TRIG_ITER, 0, -1):	
-		# terms are from taylor series
-		ret += pow(-1, k) * pow(x, 2 * k + 1) / fact(2 * k + 1)
-		
-	return ret
-
-# cosine function lcos(x)
-def lcos(x):
-	ret = 0
-	
-	# looping backwards using steps to reduce errors
-	for k in range(TRIG_ITER, 0, -1):
-		# terms are from taylor series
-		ret += pow(-1, k) * pow(x, 2 * k) / fact(2 * k)
- 
-	return ret
-
-# bisection method implemetation to find the root in the interval [l,h] for function f
-def solve(eqn, l, h):
-	# loop until the error is less than TOL
-	while True:
-		# new midpoint
-		m = (l + h) / 2
-
-		# calculate f at two points
-		x = eqn(l)
-		y = eqn(m)
-		
-		# check for tolerance and eqn(m)=0
-		if y == 0 or (h - l) / 2 < TOL:
-			return m
-
-		if (x * y) > 0: # new interval if x and y have same sign
-			l = m
-		else:
-			h = m
-
-
-# calculate PI
-pi = calcpi()
-
-# function used to compute a (simplified to reduce truncation error)
-f = lambda x : lsin(x) + pi / 2
-
->>>>>>> ed0a01bfa239ff71c6792f983bfeb949473481b1
 # call solve function on f to get a
 a = solve(f, 0, 2 * pi)
 
 # prompting for input
 while True:
-<<<<<<< HEAD
 	line = input("Enter a radius: ")
-=======
-	line = raw_input("Enter a radius: ")
->>>>>>> ed0a01bfa239ff71c6792f983bfeb949473481b1
 
 	if line.lower() == "exit" or line.lower() == "quit":
 		break;
@@ -162,12 +105,7 @@ while True:
 	try:
 		r = float(line)
 		l = -2 * r * lcos(a / 2)
-<<<<<<< HEAD
 		print("Radius:  ",  r)
 		print("Overlap: ",  l)
-=======
-		print "Radius:  %s" % r
-		print "Overlap: %s" % l
->>>>>>> ed0a01bfa239ff71c6792f983bfeb949473481b1
 	except ValueError:
 		pass # ignore silently
