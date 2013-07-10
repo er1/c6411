@@ -1,26 +1,26 @@
 
 object po {
-  def potumCalc(r: Float): Float = {
+  def potumCalc(r: Double): Double = {
 
     val PI_ITER = 12
     val TRIG_ITER = 12
 
     // power function b^e
-    def pow(base: Float, exp: Float): Float = {
-      var ret:Float = 1
+    def pow(base: Double, exp: Double): Double = {
+      var ret: Double = 1
       var b = base
-      var e = exp 
-		while (e > 0) {
-			// optimize around b ^ (2 * n) === (b * b) ^ n
-			if (e % 2 == 0) {
-				e /= 2
-				b *= b
-			} else {
-				e -= 1
-				ret *= b
-			}
-		}		
-		return ret
+      var e = exp
+      while (e > 0) {
+        // optimize around b ^ (2 * n) === (b * b) ^ n
+        if (e % 2 == 0) {
+          e /= 2
+          b *= b
+        } else {
+          e -= 1
+          ret *= b
+        }
+      }
+      return ret
     }
 
     // calculate factorial of x
@@ -33,15 +33,15 @@ object po {
       }
       return ret
     }
-    
+
     // calculate pi value
-    def calcpi(): Float = {
-      var ret: Float = 0;
-      var i = PI_ITER;
+    def calcpi(): Double = {
+      var ret: Double = 0;
+      var i = 1;
       while (i != 0) {
         i -= 1
         // terms are from the Bailey-Borwein-Plouffe forumla for PI
-        ret += 1 / pow(16, i) * (
+        ret += (1 / pow(16, i)) * (
           4 / (8 * i + 1) - 2 / (8 * i + 4) -
           1 / (8 * i + 5) - 1 / (8 * i + 6))
       }
@@ -49,8 +49,8 @@ object po {
     }
 
     // calculate sine
-    def lsin(x: Float): Float = {
-      var ret: Float = 0
+    def lsin(x: Double): Double = {
+      var ret: Double = 0
       var i = TRIG_ITER
       //loop in reverse to reduce error
       while (i > 1) {
@@ -61,8 +61,8 @@ object po {
     }
 
     // calculate cosine
-    def lcos(x: Float): Float = {
-      var ret: Float = 0
+    def lcos(x: Double): Double = {
+      var ret: Double = 0
       var i = TRIG_ITER
       //loop in reverse to reduce errors
       while (i > 1) {
@@ -73,18 +73,17 @@ object po {
     }
 
     // calculate pi
-    val pi = calcpi();
-
+    val pi = calcpi
+    println("pi :" + pi)
     // function used to solve a (simplified to reduce truncation errors)
-    def f(a: Float): Float = lsin(a) + pi / 2
-    
+    def f(a: Double): Double = lsin(a) + pi / 2
 
     // Bisection method implementation to solve the zero for function f in the range of [l, h]
-    def solve(ll:Float, hh:Float) :Float = {
+    def solve(ll: Double, hh: Double): Double = {
       var l = ll
       var h = hh
-      var m:Float = 0
-      while ( true ) {
+      var m: Double = 0
+      while (true) {
         // find the mid point
         m = (l + h) / 2
 
@@ -108,10 +107,10 @@ object po {
     }
 
     // call solve to get a
-    val a:Float = solve(0, 2 * pi);
-
+    val a: Double = solve(0, 2 * pi);
+    println("Angle a :" + a)
     // calculate l based on a
-    val len:Float = -2 * r * lcos(a / 2)
+    val len: Double = -2 * r * lcos(a / 2)
 
     return len
 
@@ -119,7 +118,7 @@ object po {
 }
 object Potum extends App {
   println("Enter Radius : ")
-  val n:Float = Console.readFloat
+  val n: Double = Console.readDouble
 
   println("Length : " + po.potumCalc(n))
 }
