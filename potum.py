@@ -38,7 +38,7 @@ def pow(n, e):
 def fact(n):
 	ret = 1
 	while n > 0:
-		ret *= n;
+		ret *= n
 		n -= 1
 	return ret
 
@@ -95,17 +95,21 @@ f = lambda x : lsin(x) + pi / 2
 # call solve function on f to get a
 a = solve(f, 0, 2 * pi)
 
-# prompting for input
-while True:
-	line = input("Enter a radius: ")
+def main():
+        while True:
+                line = input("Enter a radius: ")
 
-	if line.lower() == "exit" or line.lower() == "quit":
-		break;
+                if line.lower() == "exit" or line.lower() == "quit":
+                        break
 
-	try:
-		r = float(line)
-		l = -2 * r * lcos(a / 2)
-		print("Radius:  ",  r)
-		print("Overlap: ",  l)
-	except ValueError:
-		pass # ignore silently
+                try:
+                        r = float(line)
+                        l = -2 * r * lcos(a / 2)
+                        print("Radius:  ",  r)
+                        print("Overlap: ",  l)
+                except ValueError:
+                        pass # ignore silently
+
+
+if __name__ == '__main__':
+        main()
