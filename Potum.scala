@@ -36,16 +36,16 @@ object po {
 
     // calculate pi value
     def calcpi(): Double = {
-      var ret: Double = 0;
-      var i = 1;
+      var ret: Double = 0
+      var i = PI_ITER
       while (i != 0) {
         i -= 1
         // terms are from the Bailey-Borwein-Plouffe forumla for PI
-        ret += (1 / pow(16, i)) * (
-          4 / (8 * i + 1) - 2 / (8 * i + 4) -
-          1 / (8 * i + 5) - 1 / (8 * i + 6))
+        ret += (1.0 / pow(16, i)) * (
+          4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) -
+          1.0 / (8 * i + 5) - 1.0 / (8 * i + 6))
       }
-      return ret;
+      return ret
     }
 
     // calculate sine
@@ -74,7 +74,8 @@ object po {
 
     // calculate pi
     val pi = calcpi
-    println("pi :" + pi)
+    println("pi : " + pi)
+
     // function used to solve a (simplified to reduce truncation errors)
     def f(a: Double): Double = lsin(a) + pi / 2
 
