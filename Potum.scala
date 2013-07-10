@@ -5,14 +5,25 @@ object po {
     val PI_ITER = 12
     val TRIG_ITER = 12
 
+    // power function b^e
     def pow(base: Float, exp: Float): Float = {
-      def _power(result: Float, exp: Float): Float = exp match {
-        case 0 => result
-        case _ => _power(result * base, exp - 1)
-      }
-      _power(1, exp)
+      var ret:Float = 1
+      var b = base
+      var e = exp 
+		while (e > 0) {
+			// optimize around b ^ (2 * n) === (b * b) ^ n
+			if (e % 2 == 0) {
+				e /= 2
+				b *= b
+			} else {
+				e -= 1
+				ret *= b
+			}
+		}		
+		return ret
     }
 
+    // calculate factorial of x
     def fact(x: Int): Int = {
       var ret: Int = 1
       var xx: Int = x
@@ -22,7 +33,8 @@ object po {
       }
       return ret
     }
-
+    
+    // calculate pi value
     def calcpi(): Float = {
       var ret: Float = 0;
       var i = PI_ITER;
@@ -37,9 +49,10 @@ object po {
     }
 
     // calculate sine
-    def sin(x: Float): Float = {
+    def lsin(x: Float): Float = {
       var ret: Float = 0
       var i = TRIG_ITER
+      //loop in reverse to reduce error
       while (i > 1) {
         i -= 1
         ret += pow(-1, i) * pow(x, 2 * i + 1) / fact(2 * i + 1)
@@ -48,9 +61,10 @@ object po {
     }
 
     // calculate cosine
-    def cos(x: Float): Float = {
+    def lcos(x: Float): Float = {
       var ret: Float = 0
       var i = TRIG_ITER
+      //loop in reverse to reduce errors
       while (i > 1) {
         i -= 1
         ret += pow(-1, i) * pow(x, 2 * i) / fact(2 * i)
@@ -61,11 +75,11 @@ object po {
     // calculate pi
     val pi = calcpi();
 
-    // function used to solve for a
-    def f(a: Float): Float = sin(a) + pi / 2
+    // function used to solve a (simplified to reduce truncation errors)
+    def f(a: Float): Float = lsin(a) + pi / 2
     
 
-    // solve the zero for function f in the range of [l, h]
+    // Bisection method implementation to solve the zero for function f in the range of [l, h]
     def solve(ll:Float, hh:Float) :Float = {
       var l = ll
       var h = hh
@@ -93,11 +107,11 @@ object po {
       m
     }
 
-    // call solve on f to get a
+    // call solve to get a
     val a:Float = solve(0, 2 * pi);
 
     // calculate l based on a
-    val len:Float = -2 * r * cos(a / 2)
+    val len:Float = -2 * r * lcos(a / 2)
 
     return len
 
