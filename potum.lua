@@ -1,8 +1,8 @@
 --[[
   	COMP 6411: COMPARATIVE STUDY OF PROGRAMMING LANGUAGES: SECTION CC
-									SUMMER 2013
-						POTUM: THE BEVERAGE COASTER PROJECT
-				Created By: Radha Mendhurwar (Student Id: 6770088)
+		 		  SUMMER 2013
+			POTUM: THE BEVERAGE COASTER PROJECT
+		Created By: Radha Mendhurwar (Student Id: 6770088)
 	]] 
 
 	-- number of terms to use from the definition of PI
