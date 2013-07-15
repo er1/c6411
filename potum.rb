@@ -1,158 +1,158 @@
-@@TOL = 1e-15
-#puts @@TOL
-def pow(b,e)
 
+# a function to calculate Power.
+# n: n is the base number.
+# e: e is the power to which the number has to be calculated.
+# i: counter to track the iterations
+def pow(n,e)
+
+	temp=0
 	if e == 0
 		return 1
-	elsif e== 1
-		return b
+	
+	elsif e == 1
+		return n
 	end
-	i=1 # counter	
-	temp = b 
-
+	
+	i = 1 	
+	temp = n
+	
 	while  i < e
-		temp=temp * b
+		temp = temp * n
 		i = i + 1
 	end
-	# we have result in temp
+	
 	return temp
 	
 end
 
+# a function to calculate constant PI.
+# rep: number of iterations to be performed to calculate approximate value of PI.
+# Terms in the equation below are from the Bailey-Borwein-Plouffe forumla for PI.
 def calcpi()
-		pi=0.0
-		rep=11.0
-		while rep>=0.0
-			pi +=  1.0 / pow(16.0, rep) * (
-		  4.00 / (8.00 * rep + 1.0) - 2.0 / (8.0 * rep + 4.0) - 
-		  1.0 / (8.0 * rep + 5.0) - 1.0 / (8.0 * rep + 6.0))
-			rep=rep-1.00
-		end	
-		return pi
-end
 
-@@var=calcpi()
-puts @@var
-
-
+	pi = 0.0
+	rep = 12.0
 	
-def fact(x)
-	y=1
-	temp=1
-	if x==1 or x==0
-		return 1
+	while rep >= 0
 	
-		else
+		pi += 1 / pow(16, rep ) * (4 / (8 * rep + 1) - 2 / (8 * rep + 4 ) - 1 / (8 * rep + 5) - 1 / (8 * rep + 6))
+		rep -= 1
 		
-			while y<=x do
-				temp=temp*y
-				y=y+1
-			end
-			return temp
-	
-		end
-	
-end
-	
-def lsin(x)
-		#x=x*@@var/180	# converting angle into radians
-		ret=0.0
-		rep=12.0
-		while  rep>=0.0 
-				
-				ret+= pow(-1, rep) * pow(x, 2.0 * rep + 1) / fact(2.0 * rep + 1)
-				rep=rep-1.0
-			
-		end
-		return ret 
-	
-end
-
-#sine=lsin(30)
-#puts "This is the sine value : #{sine}"
-
-
-def lcos(x)
-	
-
-
-		#x=x*@@var/180
-		ret=0.0
-		rep=12.0
-		while  rep>=0.0 
-			
-				ret+=pow(-1, rep) * pow(x, 2.0 * rep) / fact(2.0 * rep)
-				rep=rep-1.0
-			
-		end
-		return ret 
 	end
-#cose=lcos(30)
-#puts "This is the cose value : #{cose}"
-
-
-#def f(a) 
- #lambda{return lsin(a) + @@var/2}
-#end
-
-#@@fo=f()
-#puts "lambda value expression : : #{@@fo}"
-
-def f(a)
-	 return lsin(a) + @@var / 2
+	
+	return pi
 end
+
+# pi: Global variable to store PI value
+$pi = calcpi()
+
+# a function to calculate factorial of number
+# ret: initialised to 1, returns the factorial of the number
+# x: the input of which factorial has to be calculated
+
+def fact(x)
+
+		 ret = 1.0
+		 
+		while x > 0
+			ret *= x
+			x -= 1
+		end
+		
+		return ret
 	
+end
+
+# a function to calculate sine of an angle.
+# ret: initialised to 0, returns the sine value.
+# x: the input of which angle has to be calculated.
+# Terms in the equation below are from the theory of Taylor Series.
+# i: number of iterations to be performed to calculate sine value.
+def lsin(x)
+
+	ret = 0.0
+	i = 12
+	
+	while i > 1
+	
+	    i -= 1.0
+	    ret += pow(-1, i) * pow(x, (2 * i) + 1) / fact((2 * i) + 1)
+		
+	end
+	
+	return ret
+end
+
+# a function to calculate cosine of an angle.
+# ret: initialised to 0, returns the cosine value.
+# x: the input of which angle has to be calculated.
+# Terms in the equation below are from the theory of Taylor Series.
+# i: number of iterations to be performed to calculate cosine value.
+def lcos(x)
+
+		ret = 0.0
+		rep = 12
+		
+		while  rep > 1
+		
+				rep -= 1
+				ret += pow(-1, rep) * pow(x, 2 * rep) / fact(2 * rep)
+					
+		end
+		
+		return ret
+end
+
+# function used to solve for 'a'.
+def f(a)
+	return lsin(a) + calcpi() / 2
+end
+
+# solve the zero for function f in the range of [l, h].
+# f: function f(a) is passed as a parameter
 def solve(f,l,h)
-	
-	
-	while true 
+
+	while true
+		# calculate the mid point. 
 		m = (l + h) / 2
-			
-		# calculate f at two points
-		
-		#x=f(l)
-		#y=f(m)
-		
-		#if y == 0 or (h - l) / 2 < @@TOL
-		#	return m
-		#end
-		
-		# check for tolerance and eqn(m)=0
-		if (m == l || m == h)
+	
+		# if the rounding error causes m to match either l or h.
+		# this will not work with infinite precision.
+		if m == l or m == h
 			return m
 		end
 		
-		a = f(l)
-		b = f(m)
-		c = f(h)
+		# solve f at two points.
+		x = f(l)	
+		y = f(m)
 		
-		if (a < 0 == b < 0)
-				return solve(f, m, h);
+		# if the signs of 'x' and 'y' match then the zero is not in that interval.
+		# else it is.
+		if x * y > 0
+			l = m
 		else
-				return solve(f, l, m);
+			h = m
 		end
-
-		#if x * y > 0 # new interval if x and y have same sign
-		#	l = m
-		#else
-		#	h = m
-		#end
-
+	
 	end
+	
 end
-	
-	a = solve((method(:f)), 0, 2 * @@var)
-	
-	puts "Enter radius:"
 
-		r = gets.chomp.to_i
-	#l = 2 * r * (1 - lcos(a / 2))
-	l = -2 * r * lcos(a / 2)
-	puts "value of L :: #{l}"
-	#	l = -2 * r * lcos(a / 2)
-	#	puts  r
-	#	puts  l
+# Prompt the user to enter the radius.
+puts "Enter the radius :: "
 
+# Stores the radius into variable r and converts it to float.
+r = gets.chomp.to_f
 
+puts "Radius :: #{r}"
 
+# Call solve method on function 'f' to calculate the angle 'a'.
+a = solve(method(:f), 0, 2*$pi)
+
+puts "Angle :: #{a}"
+
+# Calculate length based on value of angle 'a'
+l = -2 * r * lcos(a/2)
+
+puts "Required Length of the overlap :: #{l}"
 
