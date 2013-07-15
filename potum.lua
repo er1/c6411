@@ -34,7 +34,7 @@
 			end
 			return sum
 		end
-
+		
 	end
 
 	-- factorial function x!
@@ -116,6 +116,7 @@
 			else
 				h = mid
 			end
+			
 		end
 
 	end
@@ -131,8 +132,10 @@
 	end
 
 	local answer
+	
 	repeat
-    local r
+    	
+    	local r
 		repeat
 
 			io.write("Please enter a radius value (r): ")
