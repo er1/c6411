@@ -3,7 +3,7 @@
 									SUMMER 2013
 						POTUM: THE BEVERAGE COASTER PROJECT
 				Created By: Radha Mendhurwar (Student Id: 6770088)
-	]]
+	]] 
 
 	-- number of terms to use from the definition of PI
 	PI_ITER = 100000
