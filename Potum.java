@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Scanner;
 
 /**
@@ -12,7 +13,6 @@ public class Potum {
 	
 	public int PI_ITER = 12;
 	public int TRIG_ITER = 12;
-	public double TOL = 1e-15;
 
 	/**
 	 * @param args Main Method Command line arguments
@@ -20,22 +20,23 @@ public class Potum {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the value of radius: ");
-		float r = input.nextFloat();
+		double r = input.nextDouble();
 		System.out.println("Calculated Length: "+new Potum().potumCalc(r));
 	}
 	
-	public float potumCalc(float r) {
-		float pi = calcPi();
-		float a = solve(0, 2*pi);
+	public double potumCalc(double r) {
+		double pi = calcPi();
+		System.out.println("Calculated pi value: "+pi);
+		double a = solve(0, 2*pi);
 		System.out.println("Calculated alpha value: "+a);
-		float l = -2 * r * lCos(a/2);
+		double l = -2 * r * lCos(a/2);
 		return l;
 	}
 	
-	public float pow(float base, float exp) {
-		float ret = 1;
-		float b = base;
-		float e = exp;
+	public double pow(double base, int exp) {
+		double ret = 1;
+		double b = base;
+		int e = exp;
 		
 		while (e > 0) {
 			// optimize around b ^ (2 * n) === (b * b) ^ n
@@ -50,58 +51,64 @@ public class Potum {
 		return ret;
 	}
 
-	public int fact(int x) {
-		int ret = 1;
-		int xx = x;
-		while(xx > 0) {
-			ret *= xx;
-			xx -= 1;
+
+	public BigInteger fact(BigInteger x) {
+		BigInteger ret = BigInteger.ONE;
+		//double xx = x;
+		while(x.compareTo(BigInteger.ZERO) > 0) {
+			ret = ret.multiply(x);
+			x = x.subtract(BigInteger.ONE);
 		}
 		return ret;
 	}
 
-	public float calcPi() {
-		float ret = 0;
+	
+	public double calcPi() {
+		double ret = 0;
 		int i = PI_ITER;
 	      while (i != 0) {
 	          i -= 1;
 	          // terms are from the Bailey-Borwein-Plouffe forumla for PI
-	          ret += 1 / pow(16, i) * (
-	            4 / (8 * i + 1) - 2 / (8 * i + 4) -
-	            1 / (8 * i + 5) - 1 / (8 * i + 6));
+	          ret += (1.0 / pow(16, i)) * (
+	            4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) -
+	            1.0 / (8 * i + 5) - 1.0 / (8 * i + 6));
 	        }
 		return ret;
 	}
 
-	public float lSin(float x) {
-		float ret = 0 ;
+	public double lSin(double x) {
+		double ret = 0 ;
 		int i = TRIG_ITER;
 	      while (i > 1) {
 	          i -= 1;
-	          ret += pow(-1, i) * pow(x, (2 * i) + 1) / fact((2 * i) + 1);
+	          int xx = (2 * i) + 1;
+	          BigInteger yy = new BigInteger(String.valueOf(xx));
+	          ret += pow(-1, i) * pow(x, (2 * i) + 1) / fact(yy).doubleValue();
 	        }
 		return ret;
 	}
 
-	public float lCos(float x) {
-		float ret = 0;
+	public double lCos(double x) {
+		double ret = 0;
 		int i = TRIG_ITER;
 	      //loop in reverse to reduce errors
 	      while (i > 1) {
 	        i -= 1;
-	        ret += pow(-1, i) * pow(x, 2 * i) / fact(2 * i);
+	        int xx = (2 * i);
+	        BigInteger yy = new BigInteger(String.valueOf(xx));
+	        ret += (Double)(pow(-1, i) * pow(x, 2 * i) / fact(yy).doubleValue());
 	      }		
 		return ret;
 	}
 	
-	public float f(float a) {
+	public double f(double a) {
 		return lSin(a) + (calcPi() / 2);
 	}
 	
-	public float solve(float ll, float hh) {
-		float l = ll;
-		float h = hh;
-		float m = 0;
+	public double solve(double ll, double hh) {
+		double l = ll;
+		double h = hh;
+		double m = 0;
 		
 		while(true) {
 			// find the mid point
@@ -112,8 +119,8 @@ public class Potum {
 	            return m;
 
 	        //solve f at two points
-	        float x = f(l);
-	        float y = f(m);	        
+	        double x = f(l);
+	        double y = f(m);	        
 	        
 
 			// new interval if x and y have same sign
@@ -125,7 +132,6 @@ public class Potum {
 		}
 
 	}
-
 
 
 
