@@ -6,12 +6,16 @@ import java.util.Scanner;
  */
 
 /**
- * @author Tarnum
+ * @author Tarnum Sharma
+ * this defines a class Potum
+ * @param r (input radius)
+ * @return (length)
  *
  */
 public class Potum {
-	
+	// Number of terms to iterate over PI formulae to get exact value of pi constant
 	public int PI_ITER = 12;
+	// Number of terms to iterate over sine/cosine functions
 	public int TRIG_ITER = 12;
 
 	/**
@@ -33,6 +37,13 @@ public class Potum {
 		return l;
 	}
 	
+	
+	/**
+     * Calculates the value of the first argument raised to the power of the second argument.
+     * @param base - Base number
+     * @param exp - exponent number
+     * @return - base&#94;exp
+     */
 	public double pow(double base, int exp) {
 		double ret = 1;
 		double b = base;
@@ -51,10 +62,13 @@ public class Potum {
 		return ret;
 	}
 
-
+	/**
+     * Calculates factorial of given number
+     * @param x - Number
+     * @return - factorial value of x
+     */
 	public BigInteger fact(BigInteger x) {
 		BigInteger ret = BigInteger.ONE;
-		//double xx = x;
 		while(x.compareTo(BigInteger.ZERO) > 0) {
 			ret = ret.multiply(x);
 			x = x.subtract(BigInteger.ONE);
@@ -62,6 +76,10 @@ public class Potum {
 		return ret;
 	}
 
+    /**
+     * Calculates the value of constant PI
+     * @return - pi value
+     */
 	
 	public double calcPi() {
 		double ret = 0;
@@ -75,7 +93,12 @@ public class Potum {
 	        }
 		return ret;
 	}
-
+	
+	/**
+     * Calculates value using modified sine function
+     * @param x - the input number to which sine has to be calculated
+     * @return - modified sine value of x
+     */
 	public double lSin(double x) {
 		double ret = 0 ;
 		int i = TRIG_ITER;
@@ -88,6 +111,12 @@ public class Potum {
 		return ret;
 	}
 
+	
+	/**
+     * Calculates value using modified cosine function
+     * @param x - the input number to which cosine has to be calculated
+     * @return - modified cosine value of x
+     */
 	public double lCos(double x) {
 		double ret = 0;
 		int i = TRIG_ITER;
@@ -101,13 +130,29 @@ public class Potum {
 		return ret;
 	}
 	
+	
+
+    /**
+     * function used to solve alpha (a) (simplified to reduce truncation errors)
+     * @param a - Alpha angle
+     * @return value
+     */
 	public double f(double a) {
 		return lSin(a) + (calcPi() / 2);
 	}
 	
-	public double solve(double ll, double hh) {
-		double l = ll;
-		double h = hh;
+	
+	
+	 /**
+     * Bisection method implementation to solve the zero for function f in the range of [l, h]
+     * @param low - Lower bound value
+     * @param high - Higher bound value
+     * @return - Alpha angle value
+     */
+
+	public double solve(double low, double high) {
+		double l = low;
+		double h = high;
 		double m = 0;
 		
 		while(true) {
