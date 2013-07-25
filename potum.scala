@@ -1,9 +1,14 @@
+
+/**
+ * @author Bargavi Chinni Krishnamoorthy
+ * POTUM PROJECT
+ */
 object po {
 
   /**
    * Defines a function potum
-   * @param r - Input radius value
-   * @return  - Length
+   * @param r  Input radius value
+   * @return   Length
    */
 
   def potumCalc(r: Double): Double = {
@@ -16,9 +21,9 @@ object po {
 
     /**
      * Calculates the value of the first argument raised to the power of the second argument.
-     * @param base - Base number
-     * @param exp - exponent number
-     * @return - base&#94;exp
+     * @param base  Base number
+     * @param exp  exponent number
+     * @return  base^^exp
      */
 
     def pow(base: Double, exp: Int): Double = {
@@ -41,8 +46,8 @@ object po {
 
     /**
      * Calculates factorial of given number
-     * @param x - Number
-     * @return - factorial value of x
+     * @param x  Number
+     * @return  factorial value of x
      */
 
     def fact(x: BigInt): BigInt = {
@@ -57,7 +62,7 @@ object po {
 
     /**
      * Calculates the value of constant PI
-     * @return - pi value
+     * @return  pi value
      */
 
     def calcpi(): Double = {
@@ -75,8 +80,8 @@ object po {
 
     /**
      * Calculates value using modified sine function
-     * @param x - the input number to which sine has to be calculated
-     * @return - modified sine value of x
+     * @param x  the input number to which sine has to be calculated
+     * @return  modified sine value of x
      */
 
     def lsin(x: Double): Double = {
@@ -92,8 +97,8 @@ object po {
 
     /**
      * Calculates value using modified cosine function
-     * @param x - the input number to which cosine has to be calculated
-     * @return - modified cosine value of x
+     * @param x  the input number to which cosine has to be calculated
+     * @return  modified cosine value of x
      */
 
     def lcos(x: Double): Double = {
@@ -112,16 +117,16 @@ object po {
 
     /**
      * function used to solve alpha (a) (simplified to reduce truncation errors)
-     * @param a - Alpha angle
+     * @param a  Alpha angle
      * @return value
      */
     def f(a: Double): Double = lsin(a) + pi / 2
 
     /**
      * Bisection method implementation to solve the zero for function f in the range of [l, h]
-     * @param low - Lower bound value
-     * @param high - Higher bound value
-     * @return - Alpha angle value
+     * @param low  Lower bound value
+     * @param high  Higher bound value
+     * @return  Alpha angle value
      */
 
     def solve(low: Double, high: Double): Double = {
@@ -153,7 +158,6 @@ object po {
 
     // call solve to get a
     val a: Double = solve(0, 2 * pi);
-    println("Angle a : " + a)
 
     // calculate l based on a
     val len: Double = -2 * r * lcos(a / 2)
@@ -166,7 +170,7 @@ object potum {
 
   /**
    * Main method
-   * @param args - no command line arguments
+   * @param args  no command line arguments
    */
   def main (args : Array[String]) {
 
@@ -174,13 +178,21 @@ object potum {
     var input : String = " "
 
     while(true) {
-      println("\nEnter Radius : ")
+      print("\nEnter Radius : ")
       input = Console.readLine()
 
       if (input.equals("exit") || input.equals("quit"))
         sys.exit()
 
-      println("Length : " + po.potumCalc(input.toDouble))
+      try {
+        Some(input.toDouble)
+        var r:Double = input.toDouble
+        println("Radius  : " + r)
+        println("OverLap : " + po.potumCalc(r))
+      }
+      catch {
+        case _ => println("Try Again !!")
+      }
     }
   }
 }
