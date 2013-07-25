@@ -3,9 +3,10 @@
 # n: n is the base number.
 # e: e is the power to which the number has to be calculated.
 # i: counter to track the iterations
+$TOL = 1e-15
 def pow(n,e)
 
-	temp=0
+	temp=0.0
 	if e == 0
 		return 1
 	
@@ -35,7 +36,7 @@ def calcpi()
 	
 	while rep >= 0
 	
-		pi += 1 / pow(16, rep ) * (4 / (8 * rep + 1) - 2 / (8 * rep + 4 ) - 1 / (8 * rep + 5) - 1 / (8 * rep + 6))
+		pi += 1.0 / pow(16.0, rep)  * (4.0 / (8.0 * rep + 1.0) - 2.0 / (8.0 * rep + 4.0) - 1.0 / (8.0 * rep + 5.0) - 1 / (8.0 * rep + 6.0))
 		rep -= 1
 		
 	end
@@ -84,8 +85,6 @@ def lsin(x)
 end
 
 # a function to calculate cosine of an angle.
-# ret: initialised to 0, returns the cosine value.
-# x: the input of which angle has to be calculated.
 # Terms in the equation below are from the theory of Taylor Series.
 # i: number of iterations to be performed to calculate cosine value.
 def lcos(x)
@@ -116,15 +115,14 @@ def solve(f,l,h)
 		# calculate the mid point. 
 		m = (l + h) / 2
 	
-		# if the rounding error causes m to match either l or h.
-		# this will not work with infinite precision.
-		if m == l or m == h
-			return m
-		end
-		
 		# solve f at two points.
 		x = f(l)	
 		y = f(m)
+		
+		# check for tolerance and f(m)=0
+		if y==0 or (h-l)/2 < $TOL
+			return m
+		end
 		
 		# if the signs of 'x' and 'y' match then the zero is not in that interval.
 		# else it is.
@@ -139,12 +137,10 @@ def solve(f,l,h)
 end
 
 # Prompt the user to enter the radius.
-puts "Enter the radius :: "
+print "Enter the radius :: "
 
 # Stores the radius into variable r and converts it to float.
 r = gets.chomp.to_f
-
-puts "Radius :: #{r}"
 
 # Call solve method on function 'f' to calculate the angle 'a'.
 a = solve(method(:f), 0, 2*$pi)
@@ -154,5 +150,5 @@ puts "Angle :: #{a}"
 # Calculate length based on value of angle 'a'
 l = -2 * r * lcos(a/2)
 
-puts "Required Length of the overlap :: #{l}"
+puts "Length of the overlap :: #{l}"
 
