@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+
+"""-----------------------------------------------------------------------------
+Name: potum.py
+Purpose: POTUM: THE BEVERAGE COASTER PROJECT 
+
+Author: Jaiminkumar Patel
+Version: 1.0.4
+Created: 2013/07/05
+-----------------------------------------------------------------------------"""
+
 # number of terms to iterate from PI formulae 
 PI_ITER = 12
 
