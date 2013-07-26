@@ -115,6 +115,11 @@ f = lambda x : lsin(x) + pi / 2
 a = solve(f, 0, 2 * pi)
 
 def main():
+    print(" -------------------------------------------")
+    print("|           WELCOME TO POTUM                |")
+    print("|     Enter exit/quit to terminate          |")
+    print(" -------------------------------------------")
+    
     while True:
         line = input("Enter a radius: ")
 
@@ -129,6 +134,7 @@ def main():
                 print("Overlap: ",  l)
                 
         except ValueError:
+                print("Invalid input! Try Again!") 
                 pass # Ignore silently
 
 

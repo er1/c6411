@@ -3,19 +3,27 @@
 		 		  SUMMER 2013
 			POTUM: THE BEVERAGE COASTER PROJECT
 		Created By: Radha Mendhurwar (Student Id: 6770088)
-	]] 
+	]]
 
+	-------------------------------------------------------------------
+	-- Declaration of constants
 	-- number of terms to use from the definition of PI
-	PI_ITER = 100000
+	PI_ITER = 12
 
 	-- number of terms to use for trignometric functions (sine, cosine)
 	TRIG_ITER = 12
 
 	--Tolerance for the root finding method
-	delta = 1e-14
+	DELTA = 1e-14
+	-------------------------------------------------------------------
 
-	-- power function b^e
-	function calculatePower(b, e)
+	-------------------------------------------------------------------
+	-- power function
+	-- @param b (base)
+	-- @param e (exponent)
+	-- @return (b^e)
+	-------------------------------------------------------------------
+	function pow(b, e)
 
 		local sum = 1
 
@@ -30,67 +38,86 @@
 				else
 					e = e - 1
 					sum = sum * b
-				end
-			end
+				end -- if (e%2) statement
+			end	-- for statement
 			return sum
-		end
-		
-	end
+		end	-- if (e<0) statement
 
+	end	-- pow function
+
+	-------------------------------------------------------------------
 	-- factorial function x!
-	function calculateFactorial(x)
+	-- @ param x (input for which factorial is required)
+	-- @ return (x!)
+	-------------------------------------------------------------------
+	function fact(x)
 
 		local sum = 1
 		for iterator = 1, x do
 			sum = sum * iterator
-		end
+		end	-- for statemet
 		return sum
 
-	end
+	end	-- fact function
 
+	-------------------------------------------------------------------
 	-- calculate pi
-	function calculatePi()
+	-- @return (value of pi)
+	-------------------------------------------------------------------
+	function calcpi()
 
-		-- term accumulator for summation
-		local sum = 0
-		local fac = 1
-		for iterator = 1, PI_ITER do
-		-- terms are from Leibniz forumla for PI pi/4 = 1 - 1/3 + 1/5 - 1/7 + ... + (-1)^n/2*n+1
-			term = fac/(2*iterator-1)
-			fac = fac * -1
-			sum = sum + term
-		end
-		return 4*sum	-- We need pi and not pi/4.
+		ret = 0;
+		i = PI_ITER;
+		while i>-1 do
+			-- terms are from the Bailey-Borwein-Plouffe forumla for PI
+			ret = ret + 1 / pow(16, i) * (4 / (8 * i + 1) - 2 / (8 * i + 4) - 1 / (8 * i + 5) - 1 / (8 * i + 6))
+			i = i-1;
+		end	--while statement
+		return ret;
 
-	end
+	end	-- calcpi function
 
+	-------------------------------------------------------------------
 	-- calculate sine angle
-	function calculateSine(x)
+	-- @param x (angle value in radians)
+	-- @return sin(x)
+	-------------------------------------------------------------------
+	function lsin(x)
 
 		local sum = 0
 		-- terms are from the Taylor's Series for Sin Calculations
 		-- sin(x) = x - x^3/3! + x^5/5! - x^7/7! + x^9/9! - ... + (-1)^(n)*x^(2n+1)/(2n+1)! + .... for n 0 -> inf
 		for iterator = 0, TRIG_ITER do
-			sum = sum + ((calculatePower(-1, iterator) * calculatePower(x, 2 * iterator + 1))/ calculateFactorial(2 * iterator + 1))
-		end
+			sum = sum + ((pow(-1, iterator) * pow(x, 2 * iterator + 1))/ fact(2 * iterator + 1))
+		end	-- for statement
 		return sum
 
-	end
+	end	-- lsin function
 
+	-------------------------------------------------------------------
 	-- calculate cosine
-	function calculateCosine(x)
+	-- @param x (angle value in radians)
+	-- @return cos(x)
+	-------------------------------------------------------------------
+	function lcos(x)
 
 		local sum = 0
 		-- terms are from the Taylor's Series for Cosine Calculations
 		-- cos(x) = 1 - x^2/2! + x^4/4! - x^6/6! + ... + (-1)^(n)*x^(2n)/(2n)! + .... for n 0 -> inf
 		for iterator = 0, TRIG_ITER do
-			sum = sum + ((calculatePower(-1, iterator) * calculatePower(x, 2 * iterator))/ calculateFactorial(2 * iterator))
-		end
+			sum = sum + ((pow(-1, iterator) * pow(x, 2 * iterator))/ fact(2 * iterator))
+		end	-- for statement
 		return sum
 
-	end
+	end	--lcos function
 
+	---------------------------------------------------------------------------------------
 	-- bisection method implemetation to find the root in the interval [l,h] for function f
+	-- @param eqn (equation to be solved)
+	-- @param l (lower limit for the root)
+	-- @param h (higher limit for the root)
+	-- return root for eqn
+	---------------------------------------------------------------------------------------
 	function solve(eqn, l, h)
 
 		while true do
@@ -100,9 +127,9 @@
 
 			-- if the rounding error causes m to match either l or h
 			-- this will not work with infinite precision
-			if mid == l or mid == h or math.abs(l - h) < delta then
+			if mid == l or mid == h or math.abs(l - h) < DELTA then
 				return mid
-			end
+			end	-- if mid == ... condition
 
 
 			-- sove f at two points
@@ -115,69 +142,80 @@
 				l = mid
 			else
 				h = mid
-			end
-			
-		end
+			end	-- if a*b>0 condition
 
-	end
+		end	-- while loop
+
+	end	-- solve function
+
 
 	-- calulate pi
-	local pi = calculatePi()
+	local pi = calcpi()
 
-	-- function used to solve for a
+	-------------------------------------------------------------------
+	-- function used to solve for k
+	-- @param k (value to be put in the equation)
+	-- @return evaluation of the equation at given value k
+	-------------------------------------------------------------------
 	function f(k)
 
-		return k - calculateSine(k) - pi / 2
+		return k - lsin(k) - pi / 2
 
-	end
+	end	-- f function
 
+
+	-------------------------------------------------------------------
+	-- Code for user interaction, exception handeling and main loop
+	-------------------------------------------------------------------
 	local answer
-	
+
 	repeat
-    	
+
     	local r
 		repeat
 
 			io.write("Please enter a radius value (r): ")
-			io.flush()
+			--io.flush()
 			r = io.read()
 
-			--Validate r to be a numeric value
-			if(tonumber(r) == nil) then
+			-- Validate r to be a numeric value
+			if(not tonumber(r)) then
 				io.write("Invalid input: " .. r .. " is not a number. Please enter a numeric value.\n")
 			else
-				--Validate r to be positive
+				-- Validate r to be positive
 				if(tonumber(r) <= 0) then
 					io.write("Invalid input: r must be greater than zero.\n")
-				end
-			end
+				end	-- if tonumber(r) <= 0 statement
+			end	-- if not tonumber(r) statement
 
-		until (tonumber(r) ~= nil and tonumber(r) > 0)
+		until (tonumber(r) and tonumber(r) > 0)
 
 
 		-- call solve on f to get a. It can't be greater than pi.
 		local a = solve(f, 0, pi)
 
 		-- calculate l based on a
-		local l = 2 * r * (1- calculateCosine(a / 2))
+		local l = 2 * r * (1- lcos(a / 2))
 
-		--Areas for the coaster and overlap
-		local coasterArea = pi * calculatePower(r, 2)
-		local overlapArea = calculatePower(r, 2) * (a- calculateSine(a))
+		-- Areas for the coaster and overlap
+		local coasterArea = pi * pow(r, 2)
+		local overlapArea = pow(r, 2) * (a- lsin(a))
 
+		io.write(string.format("Value of pi computed is %.9f \n", pi))
 		io.write(string.format("For radius = %.4f the overlap l is %.14f \n", r, l))
 		io.write(string.format("Upper coaster has to be moved (2r-l) = %.14f to have overlapping area to be half of any coaster's area.\n", 2*r-l))
 		io.write(string.format("Area of coaster with radius %.4f = pi*r^2 = %.5f \nOverlapping area with computed alpha (%.4f) = r^2(alpha - sin(alpha)) = %.14f \n", r, coasterArea, a, overlapArea))
+
 
 		repeat
 			io.write("Do you want to try for another radius (y/n)? ")
 			io.flush()
 			answer = io.read()
 
-			--Validate for y/n
+			-- Validate for y/n
 			if(answer ~= "y" and answer ~= "n") then
 				io.write("Please enter y or n \n")
-			end
+			end -- if answer ~= "y" and answer ~= "n" statement
 
 		until answer == "y" or answer == "n"
 
