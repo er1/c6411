@@ -1,10 +1,14 @@
-/*----------------------------------------------------------------
+/*-----------------------------------------------------------------------
+ *  COMP 6411: COMPARATIVE STUDY OF PROGRAMMING LANGUAGES: SECTION CC
+ *  (SUMMER 2013)
+ *  POTUM: THE BEVERAGE COASTER PROJECT
  *  Author:        Tarnum Sharma
+ *  Student Id.:   6768946
  *  Last updated:  07/25/2013
  *
  *  Compilation:   javac potum.java
- *  Execution:     java potum*
- *----------------------------------------------------------------*/
+ *  Execution:     java potum
+ *-----------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------
  *  Note : Enter a positive value of Radius and it cannot be an alphabet.
@@ -38,7 +42,7 @@ public class Potum {
 		double r = 0;
 		try {
 			r = input.nextDouble();
-			if(r < 0) {
+			if (r < 0) {
 				System.out.println("Input radius value should be positive.");
 				return;
 			}
@@ -46,19 +50,18 @@ public class Potum {
 			System.out.println("Input radius value cannot be a character.");
 			return;
 		}
-		
-		System.out.println("Calculated Length: "+new Potum().potumCalc(r));
+
+		System.out.println("Calculated Length: " + new Potum().potumCalc(r));
 	}
 
 	public double potumCalc(double r) {
 		double pi = calcPi();
-		System.out.println("Calculated pi value: "+pi);
-		double a = solve(0, 2*pi);
-		System.out.println("Calculated alpha value: "+a);
-		double l = -2 * r * lCos(a/2);
+		System.out.println("Calculated pi value: " + pi);
+		double a = solve(0, 2 * pi);
+		System.out.println("Calculated alpha value: " + a);
+		double l = -2 * r * lCos(a / 2);
 		return l;
 	}
-	
 	
 	/**
      * Calculates the value of the first argument raised to the power of the second argument.
@@ -70,7 +73,7 @@ public class Potum {
 		double ret = 1;
 		double b = base;
 		int e = exp;
-		
+
 		while (e > 0) {
 			// optimize around b ^ (2 * n) === (b * b) ^ n
 			if (e % 2 == 0) {
@@ -91,7 +94,7 @@ public class Potum {
      */
 	public BigInteger fact(BigInteger x) {
 		BigInteger ret = BigInteger.ONE;
-		while(x.compareTo(BigInteger.ZERO) > 0) {
+		while (x.compareTo(BigInteger.ZERO) > 0) {
 			ret = ret.multiply(x);
 			x = x.subtract(BigInteger.ONE);
 		}
@@ -106,30 +109,30 @@ public class Potum {
 	public double calcPi() {
 		double ret = 0;
 		int i = PI_ITER;
-	      while (i != 0) {
-	          i -= 1;
-	          // terms are from the Bailey-Borwein-Plouffe forumla for PI
-	          ret += (1.0 / pow(16, i)) * (
-	            4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) -
-	            1.0 / (8 * i + 5) - 1.0 / (8 * i + 6));
-	        }
+		while (i != 0) {
+			i -= 1;
+			// terms are from the Bailey-Borwein-Plouffe forumla for PI
+			ret += (1.0 / pow(16, i))
+					* (4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) - 1.0
+							/ (8 * i + 5) - 1.0 / (8 * i + 6));
+		}
 		return ret;
 	}
-	
+
 	/**
      * Calculates value using modified sine function
      * @param x - the input number to which sine has to be calculated
      * @return - modified sine value of x
      */
 	public double lSin(double x) {
-		double ret = 0 ;
+		double ret = 0;
 		int i = TRIG_ITER;
-	      while (i > 1) {
-	          i -= 1;
-	          int xx = (2 * i) + 1;
-	          BigInteger yy = new BigInteger(String.valueOf(xx));
-	          ret += pow(-1, i) * pow(x, (2 * i) + 1) / fact(yy).doubleValue();
-	        }
+		while (i > 1) {
+			i -= 1;
+			int xx = (2 * i) + 1;
+			BigInteger yy = new BigInteger(String.valueOf(xx));
+			ret += pow(-1, i) * pow(x, (2 * i) + 1) / fact(yy).doubleValue();
+		}
 		return ret;
 	}
 
@@ -142,13 +145,14 @@ public class Potum {
 	public double lCos(double x) {
 		double ret = 0;
 		int i = TRIG_ITER;
-	      //loop in reverse to reduce errors
-	      while (i > 1) {
-	        i -= 1;
-	        int xx = (2 * i);
-	        BigInteger yy = new BigInteger(String.valueOf(xx));
-	        ret += (Double)(pow(-1, i) * pow(x, 2 * i) / fact(yy).doubleValue());
-	      }		
+		// loop in reverse to reduce errors
+		while (i > 1) {
+			i -= 1;
+			int xx = (2 * i);
+			BigInteger yy = new BigInteger(String.valueOf(xx));
+			ret += (Double) (pow(-1, i) * pow(x, 2 * i) / fact(yy)
+					.doubleValue());
+		}
 		return ret;
 	}
 	
@@ -176,30 +180,27 @@ public class Potum {
 		double l = low;
 		double h = high;
 		double m = 0;
-		
-		while(true) {
-			// find the mid point
-	        m = (l + h) / 2;
-	        
-			// check for tolerance and eqn(m)=0
-	        if (m == l || m == h)
-	            return m;
 
-	        //solve f at two points
-	        double x = f(l);
-	        double y = f(m);	        
-	        
+		while (true) {
+			// find the mid point
+			m = (l + h) / 2;
+
+			// check for tolerance and eqn(m)=0
+			if (m == l || m == h)
+				return m;
+
+			// solve f at two points
+			double x = f(l);
+			double y = f(m);
 
 			// new interval if x and y have same sign
-	        if (x < 0 == y < 0)
-	            l = m;
-	          else
-	            h = m;
-	        
+			if (x < 0 == y < 0)
+				l = m;
+			else
+				h = m;
+
 		}
 
 	}
-
-
 
 }
