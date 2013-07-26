@@ -16,6 +16,7 @@
 
 
 
+import java.awt.font.NumericShaper;
 import java.math.BigInteger;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -37,32 +38,45 @@ public class Potum {
 	 * @param args Main Method Command line arguments
 	 */
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		System.out.println("Enter the value of radius: ");
 		double r = 0;
-		try {
-			r = input.nextDouble();
-			if (r < 0) {
-				System.out.println("Input radius value should be positive.");
-				return;
+		String input;
+		System.out.println("Enter exit/quit to terminate.");
+		while (true) {
+			input = new String();
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("\nEnter radius: ");
+
+			try {
+				input = scanner.next();
+				if (input.equalsIgnoreCase("quit")
+						|| (input.equalsIgnoreCase("exit"))) {
+
+					System.exit(0);
+				}
+				r = Double.valueOf(input);
+				if (r < 0) {
+					System.out.println("Invalid Input! Try again.");
+					continue;
+				}
+			} catch (InputMismatchException | NumberFormatException e) {
+				System.out.println("Invalid Input! Try again!");
+				continue;
 			}
-		} catch (InputMismatchException e) {
-			System.out.println("Input radius value cannot be a character.");
-			return;
+			System.out.println("Radius: " + r);
+			System.out.println("Overlap: " + new Potum().potumCalc(r));
 		}
 
-		System.out.println("Calculated Length: " + new Potum().potumCalc(r));
 	}
 
 	public double potumCalc(double r) {
 		double pi = calcPi();
-		System.out.println("Calculated pi value: " + pi);
+		// System.out.println("Calculated pi value: " + pi);
 		double a = solve(0, 2 * pi);
-		System.out.println("Calculated alpha value: " + a);
+		// System.out.println("Calculated alpha value: " + a);
 		double l = -2 * r * lCos(a / 2);
 		return l;
 	}
-	
+
 	/**
      * Calculates the value of the first argument raised to the power of the second argument.
      * @param base - Base number
@@ -92,11 +106,11 @@ public class Potum {
      * @param x - Number
      * @return - factorial value of x
      */
-	public BigInteger fact(BigInteger x) {
+	public BigInteger fact(BigInteger n) {
 		BigInteger ret = BigInteger.ONE;
-		while (x.compareTo(BigInteger.ZERO) > 0) {
-			ret = ret.multiply(x);
-			x = x.subtract(BigInteger.ONE);
+		while (n.compareTo(BigInteger.ZERO) > 0) {
+			ret = ret.multiply(n);
+			n = n.subtract(BigInteger.ONE);
 		}
 		return ret;
 	}
@@ -163,8 +177,8 @@ public class Potum {
      * @param a - Alpha angle
      * @return value
      */
-	public double f(double a) {
-		return lSin(a) + (calcPi() / 2);
+	public double f(double x) {
+		return lSin(x) + (calcPi() / 2);
 	}
 	
 	
