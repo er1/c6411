@@ -1,9 +1,20 @@
-import java.math.BigInteger;
-import java.util.Scanner;
+/*----------------------------------------------------------------
+ *  Author:        Tarnum Sharma
+ *  Last updated:  07/25/2013
+ *
+ *  Compilation:   javac potum.java
+ *  Execution:     java potum*
+ *----------------------------------------------------------------*/
 
-/**
- * 
- */
+/*-----------------------------------------------------------------------
+ *  Note : Enter a positive value of Radius and it cannot be an alphabet.
+ *-----------------------------------------------------------------------*/
+
+
+
+import java.math.BigInteger;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * @author Tarnum Sharma
@@ -24,10 +35,21 @@ public class Potum {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter the value of radius: ");
-		double r = input.nextDouble();
+		double r = 0;
+		try {
+			r = input.nextDouble();
+			if(r < 0) {
+				System.out.println("Input radius value should be positive.");
+				return;
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Input radius value cannot be a character.");
+			return;
+		}
+		
 		System.out.println("Calculated Length: "+new Potum().potumCalc(r));
 	}
-	
+
 	public double potumCalc(double r) {
 		double pi = calcPi();
 		System.out.println("Calculated pi value: "+pi);
@@ -42,7 +64,7 @@ public class Potum {
      * Calculates the value of the first argument raised to the power of the second argument.
      * @param base - Base number
      * @param exp - exponent number
-     * @return - base&#94;exp
+     * @return - base^^exp
      */
 	public double pow(double base, int exp) {
 		double ret = 1;
