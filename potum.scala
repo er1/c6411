@@ -1,8 +1,13 @@
 
 /**
- * @author Bargavi Chinni Krishnamoorthy
- * POTUM PROJECT
+ * Name: potum.scala
+ * Purpose: POTUM: THE BEVERAGE COASTER PROJECT
+ * 
+ * Author: Bargavi Chinni Krishnamoorthy
+ * Version: 1.0
+ * Created: 2013/07/04
  */
+
 object po {
 
   /**
@@ -20,7 +25,8 @@ object po {
     val TRIG_ITER = 12
 
     /**
-     * Calculates the value of the first argument raised to the power of the second argument.
+     * Calculates the value of the first argument raised to the power of the 
+     * second argument.
      * @param base  Base number
      * @param exp  exponent number
      * @return  base^^exp
@@ -40,7 +46,7 @@ object po {
           ret *= b
         }
       }
-      return ret
+      ret
     }
 
 
@@ -50,14 +56,14 @@ object po {
      * @return  factorial value of x
      */
 
-    def fact(x: BigInt): BigInt = {
+    def fact(n: BigInt): BigInt = {
       var ret: BigInt = 1
-      var xx: BigInt = x
-      while (xx > 0) {
-        ret *= xx
-        xx -= 1
+      var x: BigInt = n
+      while (x > 0) {
+        ret *= x
+        x -= 1
       }
-      return ret
+      ret
     }
 
     /**
@@ -73,9 +79,9 @@ object po {
         // terms are from the Bailey-Borwein-Plouffe forumla for PI
         ret += (1.0 / pow(16, i)) * (
           4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) -
-            1.0 / (8 * i + 5) - 1.0 / (8 * i + 6))
+          1.0 / (8 * i + 5) - 1.0 / (8 * i + 6))
       }
-      return ret
+      ret
     }
 
     /**
@@ -92,7 +98,7 @@ object po {
         i -= 1
         ret += pow(-1, i) * pow(x, 2 * i + 1) / fact(2 * i + 1).toDouble
       }
-      return ret
+      ret
     }
 
     /**
@@ -109,7 +115,7 @@ object po {
         i -= 1
         ret += pow(-1, i) * pow(x, 2 * i) / fact(2 * i).toDouble
       }
-      return ret
+      ret
     }
 
     // calculate pi
@@ -123,7 +129,8 @@ object po {
     def f(a: Double): Double = lsin(a) + pi / 2
 
     /**
-     * Bisection method implementation to solve the zero for function f in the range of [l, h]
+     * Bisection method implementation to solve the zero for function f 
+     * in the range of [l, h]
      * @param low  Lower bound value
      * @param high  Higher bound value
      * @return  Alpha angle value
@@ -162,7 +169,7 @@ object po {
     // calculate l based on a
     val len: Double = -2 * r * lcos(a / 2)
 
-    return len
+    len
   }
 }
 
@@ -175,7 +182,7 @@ object potum {
   def main (args : Array[String]) {
 
     println("Enter exit/quit to stop")
-    var input : String = " "
+    var input: String = " "
 
     while(true) {
       print("\nEnter Radius : ")
@@ -186,12 +193,12 @@ object potum {
 
       try {
         Some(input.toDouble)
-        var r:Double = input.toDouble
+        var r: Double = input.toDouble
         println("Radius  : " + r)
         println("OverLap : " + po.potumCalc(r))
       }
       catch {
-        case _ => println("Try Again !!")
+        case _: Throwable => println("Try Again !!")
       }
     }
   }
