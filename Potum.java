@@ -1,13 +1,16 @@
+
 /*-----------------------------------------------------------------------
  *  COMP 6411: COMPARATIVE STUDY OF PROGRAMMING LANGUAGES: SECTION CC
  *  (SUMMER 2013)
- *  POTUM: THE BEVERAGE COASTER PROJECT
+ *-----------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------
+ *  Name:          Potum.java
+ *  Purpose:       POTUM: THE BEVERAGE COASTER PROJECT
+ *  
  *  Author:        Tarnum Sharma
- *  Student Id.:   6768946
- *  Last updated:  07/25/2013
- *
- *  Compilation:   javac potum.java
- *  Execution:     java potum
+ *  Version:       v1.0
+ *  Created:       2013/07/05
  *-----------------------------------------------------------------------*/
 
 /*-----------------------------------------------------------------------
@@ -16,16 +19,16 @@
 
 
 
-import java.awt.font.NumericShaper;
+
 import java.math.BigInteger;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * @author Tarnum Sharma
- * this defines a class Potum
- * @param r (input radius)
- * @return (length)
+ * This defines a class Potum
+ * @param r - input radius
+ * @return - length
  *
  */
 public class Potum {
