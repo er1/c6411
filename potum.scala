@@ -32,36 +32,19 @@ object po {
      * @return  base^^exp
      */
 
-    def pow(base: Double, exp: Int): Double = {
+    def pow(b: Double, e: Int): Double = {
       var ret: Double = 1
-      var b = base
-      var e = exp
-      while (e > 0) {
-        // optimize around b ^ (2 * n) === (b * b) ^ n
-        if (e % 2 == 0) {
-          e /= 2
-          b *= b
+      var b1 = b
+      var e1 = e
+      while (e1 > 0) {
+        // optimize around b1 ^ ( * n) === (b * b) ^ n
+        if (e1 % 2 == 0) {
+          e1 /= 2
+          b1 *= b1
         } else {
-          e -= 1
-          ret *= b
+          e1 -= 1
+          ret *= b1
         }
-      }
-      ret
-    }
-
-
-    /**
-     * Calculates factorial of given number
-     * @param x  Number
-     * @return  factorial value of x
-     */
-
-    def fact(n: BigInt): BigInt = {
-      var ret: BigInt = 1
-      var x: BigInt = n
-      while (x > 0) {
-        ret *= x
-        x -= 1
       }
       ret
     }
@@ -80,6 +63,22 @@ object po {
         ret += (1.0 / pow(16, i)) * (
           4.0 / (8 * i + 1) - 2.0 / (8 * i + 4) -
           1.0 / (8 * i + 5) - 1.0 / (8 * i + 6))
+      }
+      ret
+    }
+
+    /**
+     * Calculates factorial of given number
+     * @param x  Number
+     * @return  factorial value of x
+     */
+
+    def fact(n: BigInt): BigInt = {
+      var ret: BigInt = 1
+      var x: BigInt = n
+      while (x > 0) {
+        ret *= x
+        x -= 1
       }
       ret
     }
@@ -181,7 +180,7 @@ object potum {
    */
   def main (args : Array[String]) {
 
-    println("Enter exit/quit to stop")
+    println("Enter exit/quit to terminate")
     var input: String = " "
 
     while(true) {
@@ -198,7 +197,7 @@ object potum {
         println("OverLap : " + po.potumCalc(r))
       }
       catch {
-        case _: Throwable => println("Try Again !!")
+        case _: Throwable => println("Invalid Input! Try Again!")
       }
     }
   }
