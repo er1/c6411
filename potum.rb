@@ -23,6 +23,8 @@ $PI_ITER = 12
  e: e is the power to which the number has to be calculated.
  i: counter to track the iterations
 =end
+require "test/unit"
+ 
 
 def pow(b,e)
 
@@ -36,7 +38,7 @@ def pow(b,e)
   end
 	
   i = 1 	
-  temp = n
+  temp = b
 	
   while  i < e
     temp = temp * b
@@ -191,6 +193,5 @@ end
   l = -2 * $rad * lcos(a/2)
 
   puts "Length of the overlap :: #{l}"
-
 
 
