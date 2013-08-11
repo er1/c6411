@@ -55,29 +55,24 @@ class potumTest extends potum {
     assertEquals(expected, result);
   };
   @Test def testPowNegative() {
-    val result: Double = po.pow(-2, -3);
-    val expected: Double = 1;
+    val result: Double = po.pow(-2, -2);
+    val expected: Double = 1.0;
     assertEquals(expected, result);
   };
 
+  @Test def testPowNegativeA() {
+    val result: Double = po.pow(-2, 2);
+    val expected: Double = 4;
+    assertEquals(expected, result);
+  };
   @Test def testPowNull() {
     val t: Double = Double.NaN;
     val result = po.pow(t, 3);
-    val expected = 0;
+    val expected = t;
     assertEquals(expected, result);
   };
 
-  @Test def testPowNegativeDoubleInteger() {
-    val result = po.pow(-2.5, -9);
-    val expected = 1;
-    assertEquals(expected, result);
-  };
-
-  @Test def testPowPositiveDoubleInterger() {
-    val result = po.pow(2.5, 2);
-    val expected = 15.625;
-    assertEquals(expected, result);
-  };
+  
 
   @Test def testLSinNegative() {
     var x = -2;
@@ -88,7 +83,13 @@ class potumTest extends potum {
   @Test def testLSinPositive() {
     var x = 2;
     var result = po.lsin(x) + x;
-    var expected = Math.sin(x);
+    var expected = 0.9092974268256817;
+    assertEquals(expected, result);
+  };
+  @Test def testLSinZero() {
+    var x = 0;
+    var result = po.lsin(x) + x;
+    var expected = 0.0;
     assertEquals(expected, result);
   };
 
@@ -96,15 +97,22 @@ class potumTest extends potum {
     val t: Double = Double.NaN;
     var x = null;
     var result = po.lsin(t) + x;
-    var expected = Math.sin(t);
+    var expected = t;
     assertEquals(expected, result);
   };
 
   @Test def testLSinDouble() {
-    var x = "2.2";
+    var x = 1.2345;
     var t: Double = x.toDouble;
     var result = po.lsin(t) + x;
-    var expected = "NaNString";
+    var expected =0.9439833239445112;
+    assertEquals(expected, result);
+  };
+@Test def testLSinNegativeDouble() {
+    var x = -5.5;
+    var t: Double = x.toDouble;
+    var result = po.lsin(t) + x;
+    var expected =0.7055405250952838;
     assertEquals(expected, result);
   };
 
@@ -116,12 +124,19 @@ class potumTest extends potum {
   };
 
   @Test def testLCosPositive() {
-    var x = 1;
+    var x = 2;
     var result = po.lcos(x) + 1;
-    var expected = Math.cos(x);
+    var expected = -0.4161468365471426;
     assertEquals(expected, result);
   };
 
+  @Test def testLCosZero{
+    var x=0;
+     var result = po.lcos(x) + 1;
+    var expected = 1.0;
+    assertEquals(expected, result);
+    
+  }
   @Test def testLCosNull() {
     val t: Double = Double.NaN;
     var result = po.lcos(t) + 1;
@@ -130,10 +145,10 @@ class potumTest extends potum {
   };
 
   @Test def testLCosDouble() {
-    var x = "2.2";
+    var x = 3.3333;
     var t: Double = x.toDouble;
     var result = po.lcos(t) + 1;
-    var expected = Math.cos(t);
+    var expected = -0.9816803564367413;
     assertEquals(expected, result);
   };
 
@@ -150,5 +165,11 @@ class potumTest extends potum {
     var actual = 2 * r * (1 - Math.cos(alpha / 2))
     assertEquals(expected, actual);
   };
-
+@Test def testSolveLengthA() {
+    var r: Double = 50;
+    var expected: Double = 59.60272467004829;
+    var alpha: Double = 2.3098814600100575;
+    var actual = 2 * r * (1 - Math.cos(alpha / 2))
+    assertEquals(expected, actual);
+  };
 }
