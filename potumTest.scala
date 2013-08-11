@@ -1,11 +1,7 @@
 
-import junit.framework.TestCase
-import org.scalatest.junit.AssertionsForJUnit
-import scala.collection.mutable.ListBuffer
-import junit.framework.Assert._
-import org.junit
-import junit.Test
-import sun.org.mozilla.javascript.internal.Undefined
+import scala.math.BigInt.int2bigInt
+import org.junit.Test
+import junit.framework.Assert.assertEquals
 
 class potumTest extends potum {
 
